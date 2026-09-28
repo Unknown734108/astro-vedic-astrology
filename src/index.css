@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  /* Deep-space base so any not-yet-covered area still reads as "cosmic",
+     not a flat black gap, behind the existing canvas star field. */
+  background-color: #05040d;
+}
+
+/*
+  ASTRO Cosmic Design System — global safeguards (Phase B, Increment 1
+  and 19 / P4.12). This is intentionally global rather than per-component:
+  the existing app already uses `transition-all` / `animate-*` Tailwind
+  utilities in ~3,000 places, and a global override is the only way to
+  guarantee prefers-reduced-motion is honored everywhere without editing
+  every one of those call sites individually (which would be a large,
+  risky, unrelated refactor). This does not hide content or change
+  layout — only animation/transition duration and scroll behavior.
+*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Visible keyboard focus ring, consistent with the cosmic gold accent
+   already used for active states throughout the app (P4.8 / P4.9). Only
+   applies to keyboard focus (:focus-visible), never mouse/touch clicks,
+   so it adds no visual noise to existing pointer interactions. */
+:focus-visible {
+  outline: 2px solid rgba(245, 208, 130, 0.85);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
